@@ -1,0 +1,116 @@
+<div class="contact-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Get in Touch</h1>
+      <p class="hero-subtitle">We're here to help and answer any questions you might have</p>
+    </div>
+  </section>
+
+  <!-- Contact Info Section -->
+  <section class="contact-info">
+    <div class="container">
+      <div class="info-grid">
+        <div class="info-card" *ngFor="let info of contactInfo">
+          <div class="info-icon">{{ info.icon }}</div>
+          <h3>{{ info.title }}</h3>
+          <div class="info-details">
+            <p *ngFor="let detail of info.details">{{ detail }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form Section -->
+  <section class="contact-form-section">
+    <div class="container">
+      <div class="form-content">
+        <div class="form-info">
+          <h2>Send Us a Message</h2>
+          <p>Have a question or need assistance? Fill out the form below and our team will get back to you as soon as possible.</p>
+          <div class="form-image">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80" alt="Contact Us">
+          </div>
+        </div>
+        <div class="form-wrapper">
+          <form class="contact-form" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" [(ngModel)]="contactForm.name" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" [(ngModel)]="contactForm.email" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" [(ngModel)]="contactForm.phone">
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject *</label>
+                <input type="text" id="subject" name="subject" [(ngModel)]="contactForm.subject" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="5" [(ngModel)]="contactForm.message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-large">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map-section">
+    <div class="container">
+      <h2 class="section-title">Visit Our Office</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb8a6c7%3A0x4e3b5b5b5b5b5b5b!2s123%20Main%20St%2C%20New%20York%2C%20NY%2010001%2C%20USA!5e0!3m2!1sen!2sus!4v1234567890"
+          width="100%" 
+          height="400" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item" *ngFor="let faq of faqs">
+          <div class="faq-question">
+            <h3>{{ faq.question }}</h3>
+          </div>
+          <div class="faq-answer">
+            <p>{{ faq.answer }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Emergency Contact -->
+  <section class="emergency-contact">
+    <div class="container">
+      <div class="emergency-content">
+        <div class="emergency-icon">🚨</div>
+        <h2>Emergency Support</h2>
+        <p>For urgent roadside assistance or vehicle emergencies, call our 24/7 helpline:</p>
+        <div class="emergency-number">
+          <a href="tel:+1-800-EMERGENCY" class="btn btn-emergency">1-800-EMERGENCY</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

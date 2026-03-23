@@ -8,15 +8,21 @@ import { ProviderDashboardComponent } from './components/provider-dashboard/prov
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
 import { BookedVehiclesComponent } from './components/booked-vehicles/booked-vehicles.component';
+import { HomeComponent } from './components/home/home.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
+import { ContactComponent } from './components/contact/contact.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
 import { UserGuard } from './guards/user.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutUsComponent },
+  { path: 'contact', component: ContactComponent },
   { 
     path: 'vehicles', 
     component: VehicleListComponent,
