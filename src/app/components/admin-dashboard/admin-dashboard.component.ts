@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -14,7 +15,7 @@ export class AdminDashboardComponent implements OnInit {
   errorMessage: string = '';
   activeTab: string = 'vehicles';
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadAllData();
@@ -124,5 +125,17 @@ export class AdminDashboardComponent implements OnInit {
 
   getBannedClass(isBanned: boolean): string {
     return isBanned ? 'status-banned' : 'status-active';
+  }
+
+  navigateToUsers(): void {
+    this.router.navigate(['/admin/users']);
+  }
+
+  navigateToProviders(): void {
+    this.router.navigate(['/admin/providers']);
+  }
+
+  navigateToVehicles(): void {
+    this.router.navigate(['/admin/vehicles']);
   }
 }

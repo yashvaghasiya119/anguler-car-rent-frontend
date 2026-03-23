@@ -15,6 +15,9 @@ import { BookedVehiclesComponent } from './components/booked-vehicles/booked-veh
 import { HomeComponent } from './components/home/home.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { AdminUsersManagementComponent } from './components/admin-users-management/admin-users-management.component';
+import { AdminProvidersManagementComponent } from './components/admin-providers-management/admin-providers-management.component';
+import { AdminVehiclesManagementComponent } from './components/admin-vehicles-management/admin-vehicles-management.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
@@ -34,7 +37,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     BookedVehiclesComponent,
     HomeComponent,
     AboutUsComponent,
-    ContactComponent
+    ContactComponent,
+    AdminUsersManagementComponent,
+    AdminProvidersManagementComponent,
+    AdminVehiclesManagementComponent
   ],
   imports: [
     BrowserModule,

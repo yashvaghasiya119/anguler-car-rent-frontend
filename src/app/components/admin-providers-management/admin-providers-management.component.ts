@@ -1,0 +1,75 @@
+import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../services/admin.service';
+
+@Component({
+  selector: 'app-admin-providers-management',
+  templateUrl: './admin-providers-management.component.html',
+  styleUrls: ['./admin-providers-management.component.css']
+})
+export class AdminProvidersManagementComponent implements OnInit {
+  providers: any[] = [];
+  loading = false;
+  errorMessage = '';
+
+  constructor(private adminService: AdminService) {}
+
+  ngOnInit(): void {
+    this.loadProviders();
+  }
+
+  loadProviders(): void {
+    this.loading = true;
+    this.adminService.getAllProviders().subscribe({
+      next: (data: any[]) => {
+        this.providers = data;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        this.errorMessage = 'Failed to load providers';
+        this.loading = false;
+        console.error('Error loading providers:', err);
+      }
+    });
+  }
+
+  banProvider(providerId: string): void {
+    if (confirm('Are you sure you want to ban this provider?')) {
+      this.adminService.banProvider(providerId).subscribe({
+        next: () => {
+          this.loadProviders();
+        },
+        error: (err: any) => {
+          alert('Failed to ban provider');
+          console.error('Error banning provider:', err);
+        }
+      });
+    }
+  }
+
+  unbanProvider(providerId: string): void {
+    this.adminService.unbanProvider(providerId).subscribe({
+      next: () => {
+        this.loadProviders();
+      },
+      error: (err: any) => {
+        alert('Failed to unban provider');
+        console.error('Error unbanning provider:', err);
+      }
+    });
+  }
+
+  deleteProvider(providerId: string): void {
+    if (confirm('Are you sure you want to delete this provider? This will also delete all their vehicles.')) {
+      // Note: This method needs to be added to AdminService
+      alert('Delete provider functionality needs backend implementation');
+    }
+  }
+
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
+  }
+
+  getStatusClass(isBanned: boolean): string {
+    return isBanned ? 'badge-banned' : 'badge-active';
+  }
+}

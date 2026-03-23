@@ -25,6 +25,18 @@
   text-align: center;
   min-width: 100px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-color: #007bff;
+}
+
+.stat-card.clickable {
+  cursor: pointer;
 }
 
 .stat-card h3 {

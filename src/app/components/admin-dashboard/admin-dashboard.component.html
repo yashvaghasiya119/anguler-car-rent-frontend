@@ -2,15 +2,15 @@
   <div class="dashboard-header">
     <h2>Admin Dashboard</h2>
     <div class="stats">
-      <div class="stat-card">
+      <div class="stat-card clickable" (click)="navigateToUsers()">
         <h3>{{ users.length }}</h3>
         <p>Users</p>
       </div>
-      <div class="stat-card">
+      <div class="stat-card clickable" (click)="navigateToProviders()">
         <h3>{{ providers.length }}</h3>
         <p>Providers</p>
       </div>
-      <div class="stat-card">
+      <div class="stat-card clickable" (click)="navigateToVehicles()">
         <h3>{{ vehicles.length }}</h3>
         <p>Vehicles</p>
       </div>

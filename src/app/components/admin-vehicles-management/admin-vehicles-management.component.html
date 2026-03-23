@@ -1,0 +1,96 @@
+<div class="admin-vehicles-management">
+  <div class="container">
+    <div class="page-header">
+      <h2>Vehicle Management</h2>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="loadVehicles()">
+          <i class="refresh-icon">🔄</i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="loading" class="text-center loading">
+      <div class="spinner"></div>
+      <p>Loading vehicles...</p>
+    </div>
+
+    <div class="vehicles-table-container" *ngIf="!loading">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Image</th>
+              <th>Vehicle Number</th>
+              <th>Model</th>
+              <th>Provider</th>
+              <th>Rent/Hour</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehicle of vehicles; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <img [src]="'http://localhost:5000/' + vehicle.vehicleFrontImage" 
+                     [alt]="vehicle.carModel" 
+                     class="vehicle-thumbnail"
+                     *ngIf="vehicle.vehicleFrontImage">
+                <div class="no-thumbnail" *ngIf="!vehicle.vehicleFrontImage">🚗</div>
+              </td>
+              <td>
+                <div class="vehicle-info">
+                  <strong>{{ vehicle.vehicleNumber }}</strong>
+                </div>
+              </td>
+              <td>{{ vehicle.carModel }}</td>
+              <td>{{ vehicle.providerId?.name || 'Unknown' }}</td>
+              <td>{{ formatCurrency(vehicle.rentPerHour) }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusClass(vehicle.status)">
+                  {{ vehicle.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-info" 
+                          title="View Details">
+                    👁️
+                  </button>
+                  <button class="btn btn-sm btn-success" 
+                          (click)="approveVehicle(vehicle._id)"
+                          *ngIf="vehicle.status === 'pending'"
+                          title="Approve Vehicle">
+                    ✅
+                  </button>
+                  <button class="btn btn-sm btn-danger" 
+                          (click)="rejectVehicle(vehicle._id)"
+                          *ngIf="vehicle.status === 'pending'"
+                          title="Reject Vehicle">
+                    ❌
+                  </button>
+                  <button class="btn btn-sm btn-warning" 
+                          (click)="deleteVehicle(vehicle._id)"
+                          title="Delete Vehicle">
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="vehicles.length === 0" class="no-data">
+        <div class="no-data-icon">🚗</div>
+        <h3>No Vehicles Found</h3>
+        <p>There are no vehicles registered in the system yet.</p>
+      </div>
+    </div>
+  </div>
+</div>

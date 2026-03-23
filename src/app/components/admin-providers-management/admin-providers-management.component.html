@@ -1,0 +1,88 @@
+<div class="admin-providers-management">
+  <div class="container">
+    <div class="page-header">
+      <h2>Provider Management</h2>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="loadProviders()">
+          <i class="refresh-icon">🔄</i> Refresh
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="loading" class="text-center loading">
+      <div class="spinner"></div>
+      <p>Loading providers...</p>
+    </div>
+
+    <div class="providers-table-container" *ngIf="!loading">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Status</th>
+              <th>Joined Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let provider of providers; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <div class="provider-info">
+                  <strong>{{ provider.name }}</strong>
+                </div>
+              </td>
+              <td>{{ provider.email }}</td>
+              <td>{{ provider.phone || 'Not provided' }}</td>
+              <td>
+                <span class="badge" [ngClass]="getStatusClass(provider.isBanned)">
+                  {{ provider.isBanned ? 'Banned' : 'Active' }}
+                </span>
+              </td>
+              <td>{{ formatDate(provider.createdAt) }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-sm btn-info" 
+                          title="View Details">
+                    👁️
+                  </button>
+                  <button class="btn btn-sm btn-warning" 
+                          (click)="banProvider(provider._id)"
+                          *ngIf="!provider.isBanned"
+                          title="Ban Provider">
+                    🚫
+                  </button>
+                  <button class="btn btn-sm btn-success" 
+                          (click)="unbanProvider(provider._id)"
+                          *ngIf="provider.isBanned"
+                          title="Unban Provider">
+                    ✅
+                  </button>
+                  <button class="btn btn-sm btn-danger" 
+                          (click)="deleteProvider(provider._id)"
+                          title="Delete Provider">
+                    🗑️
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="providers.length === 0" class="no-data">
+        <div class="no-data-icon">🏢</div>
+        <h3>No Providers Found</h3>
+        <p>There are no providers registered in the system yet.</p>
+      </div>
+    </div>
+  </div>
+</div>

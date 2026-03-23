@@ -11,6 +11,9 @@ import { BookedVehiclesComponent } from './components/booked-vehicles/booked-veh
 import { HomeComponent } from './components/home/home.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { AdminUsersManagementComponent } from './components/admin-users-management/admin-users-management.component';
+import { AdminProvidersManagementComponent } from './components/admin-providers-management/admin-providers-management.component';
+import { AdminVehiclesManagementComponent } from './components/admin-vehicles-management/admin-vehicles-management.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
@@ -51,6 +54,21 @@ const routes: Routes = [
   { 
     path: 'admin-dashboard', 
     component: AdminDashboardComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  { 
+    path: 'admin/users', 
+    component: AdminUsersManagementComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  { 
+    path: 'admin/providers', 
+    component: AdminProvidersManagementComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  { 
+    path: 'admin/vehicles', 
+    component: AdminVehiclesManagementComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   { path: '**', redirectTo: '/login' }

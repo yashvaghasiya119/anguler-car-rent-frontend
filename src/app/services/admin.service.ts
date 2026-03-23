@@ -14,6 +14,18 @@ export class AdminService {
     return this.http.get<any[]>(`${this.API_URL}/users`);
   }
 
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete(`${this.API_URL}/users/${id}`);
+  }
+
+  banUser(id: string): Observable<any> {
+    return this.http.put(`${this.API_URL}/ban-user/${id}`, {});
+  }
+
+  unbanUser(id: string): Observable<any> {
+    return this.http.put(`${this.API_URL}/unban-user/${id}`, {});
+  }
+
   getAllProviders(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/providers`);
   }
