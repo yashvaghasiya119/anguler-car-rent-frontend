@@ -4,6 +4,7 @@
       <a routerLink="/" class="nav-link">Vehicle Rental</a>
       <ng-container *ngIf="currentUser">
         <a routerLink="/vehicles" class="nav-link" *ngIf="isUser()">Vehicles</a>
+        <a routerLink="/my-bookings" class="nav-link" *ngIf="isUser()">My Bookings</a>
         <a routerLink="/provider-dashboard" class="nav-link" *ngIf="isProvider()">My Vehicles</a>
         <a routerLink="/add-vehicle" class="nav-link" *ngIf="isProvider()">Add Vehicle</a>
         <a routerLink="/admin-dashboard" class="nav-link" *ngIf="isAdmin()">Admin Dashboard</a>

@@ -1,0 +1,59 @@
+<div class="booked-vehicles-container">
+  <h2>My Bookings</h2>
+  
+  <div *ngIf="loading" class="loading">
+    Loading your bookings...
+  </div>
+  
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+  
+  <div *ngIf="!loading && !error && bookings.length === 0" class="no-bookings">
+    <p>You haven't made any bookings yet.</p>
+    <a routerLink="/vehicles" class="btn btn-primary">Browse Vehicles</a>
+  </div>
+  
+  <div *ngIf="!loading && !error && bookings.length > 0" class="bookings-grid">
+    <div *ngFor="let booking of bookings" class="booking-card">
+      <div class="booking-header">
+        <h3>{{ booking.vehicleId.carModel }}</h3>
+        <span class="booking-status" [ngClass]="getStatusClass(booking.status)">
+          {{ booking.status.charAt(0).toUpperCase() + booking.status.slice(1) }}
+        </span>
+      </div>
+      
+      <div class="booking-details">
+        <div class="detail-row">
+          <span class="label">Vehicle Number:</span>
+          <span class="value">{{ booking.vehicleId.vehicleNumber }}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Rent per Hour:</span>
+          <span class="value">${{ booking.vehicleId.rentPerHour }}/hr</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Start Time:</span>
+          <span class="value">{{ formatDate(booking.startTime) }}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">End Time:</span>
+          <span class="value">{{ formatDate(booking.endTime) }}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Total Price:</span>
+          <span class="value">${{ booking.totalPrice }}</span>
+        </div>
+        
+        <div class="detail-row">
+          <span class="label">Booked on:</span>
+          <span class="value">{{ formatDate(booking.createdAt) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

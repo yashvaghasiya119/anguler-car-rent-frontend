@@ -5,6 +5,10 @@
     {{ errorMessage }}
   </div>
 
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
   <div *ngIf="loading" class="text-center">
     <p>Loading vehicle details...</p>
   </div>
@@ -86,6 +90,42 @@
               Book Vehicle
             </button>
           </form>
+
+          <div *ngIf="showPaymentSection" class="mt-20">
+            <h4>Payment</h4>
+
+            <div class="form-group">
+              <label class="form-label">Payment Method</label>
+              <select class="form-control" [(ngModel)]="paymentMethod" name="paymentMethod">
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+              </select>
+            </div>
+
+            <div *ngIf="paymentMethod === 'card'">
+              <div class="form-group">
+                <label class="form-label">Bank Name</label>
+                <input class="form-control" [(ngModel)]="cardData.bankName" name="bankName" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Card Number</label>
+                <input class="form-control" [(ngModel)]="cardData.cardNumber" name="cardNumber" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Card Holder Name</label>
+                <input class="form-control" [(ngModel)]="cardData.cardHolderName" name="cardHolderName" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <button type="button" class="btn btn-success" (click)="payNow()" [disabled]="paymentLoading">
+                {{ paymentLoading ? 'Processing...' : 'Pay Now' }}
+              </button>
+              <button type="button" class="btn btn-secondary" (click)="cancelPayment()" [disabled]="paymentLoading">
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

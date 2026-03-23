@@ -7,6 +7,7 @@ import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-de
 import { ProviderDashboardComponent } from './components/provider-dashboard/provider-dashboard.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
+import { BookedVehiclesComponent } from './components/booked-vehicles/booked-vehicles.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
@@ -24,6 +25,11 @@ const routes: Routes = [
   { 
     path: 'vehicles/:id', 
     component: VehicleDetailsComponent,
+    canActivate: [AuthGuard, UserGuard]
+  },
+  { 
+    path: 'my-bookings', 
+    component: BookedVehiclesComponent,
     canActivate: [AuthGuard, UserGuard]
   },
   { 

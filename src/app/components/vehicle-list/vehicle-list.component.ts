@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../../services/vehicle.service';
-import { BookingService } from '../../services/booking.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,7 +14,6 @@ export class VehicleListComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
-    private bookingService: BookingService,
     private router: Router
   ) { }
 
@@ -42,21 +40,6 @@ export class VehicleListComponent implements OnInit {
   }
 
   bookVehicle(vehicle: any): void {
-    // This would typically open a booking modal or navigate to booking page
-    // For simplicity, we'll create a basic booking
-    const bookingData = {
-      vehicleId: vehicle._id,
-      startTime: new Date(),
-      endTime: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
-    };
-
-    this.bookingService.bookVehicle(bookingData).subscribe({
-      next: (response) => {
-        alert('Vehicle booked successfully!');
-      },
-      error: (error) => {
-        alert('Failed to book vehicle: ' + (error.error?.message || 'Unknown error'));
-      }
-    });
+    this.router.navigate(['/vehicles', vehicle._id]);
   }
 }

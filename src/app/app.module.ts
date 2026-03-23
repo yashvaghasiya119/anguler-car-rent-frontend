@@ -11,6 +11,7 @@ import { VehicleDetailsComponent } from './components/vehicle-details/vehicle-de
 import { ProviderDashboardComponent } from './components/provider-dashboard/provider-dashboard.component';
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AddVehicleComponent } from './components/add-vehicle/add-vehicle.component';
+import { BookedVehiclesComponent } from './components/booked-vehicles/booked-vehicles.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
@@ -26,7 +27,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     VehicleDetailsComponent,
     ProviderDashboardComponent,
     AdminDashboardComponent,
-    AddVehicleComponent
+    AddVehicleComponent,
+    BookedVehiclesComponent
   ],
   imports: [
     BrowserModule,
