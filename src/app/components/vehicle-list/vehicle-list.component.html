@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="card-header">
+    <h2>Available Vehicles</h2>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading vehicles...</p>
+  </div>
+
+  <div *ngIf="!loading && vehicles.length === 0" class="text-center">
+    <p>No vehicles available at the moment.</p>
+  </div>
+
+  <div class="vehicle-grid" *ngIf="!loading && vehicles.length > 0">
+    <div class="vehicle-card" *ngFor="let vehicle of vehicles">
+      <div class="vehicle-image">
+        <img [src]="'http://localhost:5000/' + vehicle.vehicleFrontImage" 
+             [alt]="vehicle.carModel" 
+             class="card-img"
+             *ngIf="vehicle.vehicleFrontImage">
+        <div class="no-image" *ngIf="!vehicle.vehicleFrontImage">
+          No Image Available
+        </div>
+      </div>
+      
+      <div class="vehicle-info">
+        <h3>{{ vehicle.carModel }}</h3>
+        <p><strong>Vehicle Number:</strong> {{ vehicle.vehicleNumber }}</p>
+        <p><strong>Owner:</strong> {{ vehicle.ownerName }}</p>
+        <p><strong>Rent per Hour:</strong> ${{ vehicle.rentPerHour }}</p>
+        <p><strong>Status:</strong> <span class="status-approved">{{ vehicle.status }}</span></p>
+      </div>
+      
+      <div class="vehicle-actions">
+        <button class="btn btn-primary" (click)="viewVehicleDetails(vehicle._id)">
+          View Details
+        </button>
+        <button class="btn btn-success" (click)="bookVehicle(vehicle)">
+          Book Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

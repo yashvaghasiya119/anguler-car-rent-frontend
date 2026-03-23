@@ -1,0 +1,27 @@
+<div class="header">
+  <nav class="nav">
+    <div class="nav-links">
+      <a routerLink="/" class="nav-link">Vehicle Rental</a>
+      <ng-container *ngIf="currentUser">
+        <a routerLink="/vehicles" class="nav-link" *ngIf="isUser()">Vehicles</a>
+        <a routerLink="/provider-dashboard" class="nav-link" *ngIf="isProvider()">My Vehicles</a>
+        <a routerLink="/add-vehicle" class="nav-link" *ngIf="isProvider()">Add Vehicle</a>
+        <a routerLink="/admin-dashboard" class="nav-link" *ngIf="isAdmin()">Admin Dashboard</a>
+      </ng-container>
+    </div>
+    <div class="nav-links">
+      <ng-container *ngIf="!currentUser">
+        <a routerLink="/login" class="nav-link">Login</a>
+        <a routerLink="/register" class="nav-link">Register</a>
+      </ng-container>
+      <ng-container *ngIf="currentUser">
+        <span class="nav-link">Welcome, {{ currentUser.name }}</span>
+        <button (click)="logout()" class="btn btn-secondary">Logout</button>
+      </ng-container>
+    </div>
+  </nav>
+</div>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

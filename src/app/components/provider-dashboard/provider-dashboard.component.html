@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="dashboard-header">
+    <h2>My Vehicles</h2>
+    <button class="btn btn-primary" (click)="addVehicle()">
+      + Add New Vehicle
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading your vehicles...</p>
+  </div>
+
+  <div *ngIf="!loading && vehicles.length === 0" class="text-center">
+    <p>You haven't added any vehicles yet.</p>
+    <button class="btn btn-primary" (click)="addVehicle()">
+      Add Your First Vehicle
+    </button>
+  </div>
+
+  <div class="vehicle-table" *ngIf="!loading && vehicles.length > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Vehicle</th>
+          <th>Model</th>
+          <th>Number</th>
+          <th>Rent/Hour</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of vehicles">
+          <td>
+            <img [src]="'http://localhost:5000/' + vehicle.vehicleFrontImage" 
+                 [alt]="vehicle.carModel" 
+                 class="vehicle-thumbnail"
+                 *ngIf="vehicle.vehicleFrontImage">
+            <div class="no-thumbnail" *ngIf="!vehicle.vehicleFrontImage">
+              No Image
+            </div>
+          </td>
+          <td>{{ vehicle.carModel }}</td>
+          <td>{{ vehicle.vehicleNumber }}</td>
+          <td>${{ vehicle.rentPerHour }}</td>
+          <td>
+            <span class="status" [ngClass]="getStatusClass(vehicle.status)">
+              {{ vehicle.status }}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-secondary btn-sm" (click)="editVehicle(vehicle._id)">
+                Edit
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="deleteVehicle(vehicle._id)">
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

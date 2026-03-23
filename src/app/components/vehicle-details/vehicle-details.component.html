@@ -1,0 +1,93 @@
+<div class="container">
+  <button class="btn btn-secondary mb-20" (click)="goBack()">← Back to Vehicles</button>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading vehicle details...</p>
+  </div>
+
+  <div class="vehicle-details" *ngIf="!loading && vehicle">
+    <div class="vehicle-header">
+      <h2>{{ vehicle.carModel }}</h2>
+      <span class="status status-approved">{{ vehicle.status }}</span>
+    </div>
+
+    <div class="vehicle-content">
+      <div class="vehicle-image-section">
+        <img [src]="'http://localhost:5000/' + vehicle.vehicleFrontImage" 
+             [alt]="vehicle.carModel" 
+             class="vehicle-main-image"
+             *ngIf="vehicle.vehicleFrontImage">
+        <div class="no-image" *ngIf="!vehicle.vehicleFrontImage">
+          No Image Available
+        </div>
+      </div>
+
+      <div class="vehicle-info-section">
+        <div class="info-card">
+          <h3>Vehicle Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <strong>Vehicle Number:</strong> {{ vehicle.vehicleNumber }}
+            </div>
+            <div class="info-item">
+              <strong>Car Model:</strong> {{ vehicle.carModel }}
+            </div>
+            <div class="info-item">
+              <strong>Owner:</strong> {{ vehicle.ownerName }}
+            </div>
+            <div class="info-item">
+              <strong>Rent per Hour:</strong> ${{ vehicle.rentPerHour }}
+            </div>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>Provider Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <strong>Provider Name:</strong> {{ vehicle.providerId?.name }}
+            </div>
+            <div class="info-item">
+              <strong>Provider Email:</strong> {{ vehicle.providerId?.email }}
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-section">
+          <h3>Book This Vehicle</h3>
+          <form (ngSubmit)="bookVehicle()">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="startTime" class="form-label">Start Time</label>
+                <input 
+                  type="datetime-local" 
+                  id="startTime" 
+                  class="form-control" 
+                  [(ngModel)]="bookingData.startTime" 
+                  name="startTime" 
+                  required>
+              </div>
+              <div class="form-group">
+                <label for="endTime" class="form-label">End Time</label>
+                <input 
+                  type="datetime-local" 
+                  id="endTime" 
+                  class="form-control" 
+                  [(ngModel)]="bookingData.endTime" 
+                  name="endTime" 
+                  required>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+              Book Vehicle
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

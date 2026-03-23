@@ -1,0 +1,166 @@
+<div class="container">
+  <div class="dashboard-header">
+    <h2>Admin Dashboard</h2>
+    <div class="stats">
+      <div class="stat-card">
+        <h3>{{ users.length }}</h3>
+        <p>Users</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ providers.length }}</h3>
+        <p>Providers</p>
+      </div>
+      <div class="stat-card">
+        <h3>{{ vehicles.length }}</h3>
+        <p>Vehicles</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <div class="admin-content" *ngIf="!loading">
+    <div class="tabs">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'vehicles'"
+        (click)="setActiveTab('vehicles')">
+        Vehicles ({{ vehicles.length }})
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'providers'"
+        (click)="setActiveTab('providers')">
+        Providers ({{ providers.length }})
+      </button>
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'users'"
+        (click)="setActiveTab('users')">
+        Users ({{ users.length }})
+      </button>
+    </div>
+
+    <!-- Vehicles Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'vehicles'">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Vehicle</th>
+              <th>Model</th>
+              <th>Provider</th>
+              <th>Rent/Hour</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let vehicle of vehicles">
+              <td>
+                <img [src]="'http://localhost:5000/' + vehicle.vehicleFrontImage" 
+                     [alt]="vehicle.carModel" 
+                     class="thumbnail"
+                     *ngIf="vehicle.vehicleFrontImage">
+                <div class="no-thumbnail" *ngIf="!vehicle.vehicleFrontImage">No Image</div>
+              </td>
+              <td>{{ vehicle.carModel }}</td>
+              <td>{{ vehicle.providerId?.name }}</td>
+              <td>${{ vehicle.rentPerHour }}</td>
+              <td>
+                <span class="status" [ngClass]="getStatusClass(vehicle.status)">
+                  {{ vehicle.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-success btn-sm" 
+                          (click)="approveVehicle(vehicle._id)"
+                          *ngIf="vehicle.status === 'pending'">
+                    Approve
+                  </button>
+                  <button class="btn btn-danger btn-sm" 
+                          (click)="rejectVehicle(vehicle._id)"
+                          *ngIf="vehicle.status === 'pending'">
+                    Reject
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Providers Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'providers'">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let provider of providers">
+              <td>{{ provider.name }}</td>
+              <td>{{ provider.email }}</td>
+              <td>
+                <span class="status" [ngClass]="getBannedClass(provider.isBanned)">
+                  {{ provider.isBanned ? 'Banned' : 'Active' }}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn btn-danger btn-sm" 
+                          (click)="banProvider(provider._id)"
+                          *ngIf="!provider.isBanned">
+                    Ban
+                  </button>
+                  <button class="btn btn-success btn-sm" 
+                          (click)="unbanProvider(provider._id)"
+                          *ngIf="provider.isBanned">
+                    Unban
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div class="tab-content" *ngIf="activeTab === 'users'">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role }}</td>
+              <td>{{ user.createdAt | date:'shortDate' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+/* Login component specific styles */
+.card {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 12px;
+  font-size: 16px;
+}
+
+.alert {
+  margin-bottom: 20px;
+}
+
+.text-center p {
+  margin-top: 15px;
+  color: #666;
+}
+
+.nav-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}

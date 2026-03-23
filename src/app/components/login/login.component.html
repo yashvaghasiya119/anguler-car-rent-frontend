@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="card" style="max-width: 400px; margin: 50px auto;">
+    <div class="card-header text-center">
+      <h2>Login</h2>
+    </div>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          class="form-control" 
+          [(ngModel)]="email" 
+          name="email" 
+          required
+          placeholder="Enter your email">
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          class="form-control" 
+          [(ngModel)]="password" 
+          name="password" 
+          required
+          placeholder="Enter your password">
+      </div>
+      
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Login
+      </button>
+    </form>
+    
+    <div class="text-center mt-20">
+      <p>Don't have an account? <a routerLink="/register" class="nav-link">Register here</a></p>
+    </div>
+  </div>
+</div>
