@@ -90,6 +90,12 @@ export class VehicleDetailsComponent implements OnInit {
         this.errorMessage = 'Please fill all card details';
         return;
       }
+
+      const cardDigits = String(this.cardData.cardNumber).replace(/\D/g, '');
+      if (cardDigits.length !== 12) {
+        this.errorMessage = 'Card number must be exactly 12 digits';
+        return;
+      }
     }
 
     const payload: any = {
