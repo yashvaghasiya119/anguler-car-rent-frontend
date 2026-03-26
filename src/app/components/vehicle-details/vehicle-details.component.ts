@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { PaymentService } from '../../services/payment.service';
+import { InvoiceService } from '../../services/invoice.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -27,11 +28,18 @@ export class VehicleDetailsComponent implements OnInit {
     cardHolderName: ''
   };
 
+  showInvoiceModal: boolean = false;
+  invoiceLoading: boolean = false;
+  invoiceDownloading: boolean = false;
+  invoiceData: any = null;
+  invoiceBookingId: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private invoiceService: InvoiceService
   ) { }
 
   ngOnInit(): void {
@@ -103,12 +111,62 @@ export class VehicleDetailsComponent implements OnInit {
         this.paymentLoading = false;
         this.showPaymentSection = false;
         this.successMessage = 'Vehicle booked successfully';
-        alert('Vehicle booked successfully!');
-        this.router.navigate(['/vehicles']);
+
+        const bookingId = response?.booking?._id;
+        if (bookingId) {
+          this.openInvoice(bookingId);
+        } else {
+          this.router.navigate(['/vehicles']);
+        }
       },
       error: (error) => {
         this.paymentLoading = false;
         this.errorMessage = error.error?.message || 'Payment failed';
+      }
+    });
+  }
+
+  openInvoice(bookingId: string): void {
+    this.invoiceBookingId = bookingId;
+    this.invoiceData = null;
+    this.invoiceLoading = true;
+    this.showInvoiceModal = true;
+
+    this.invoiceService.getInvoice(bookingId).subscribe({
+      next: (data) => {
+        this.invoiceData = data;
+        this.invoiceLoading = false;
+      },
+      error: (error) => {
+        this.invoiceLoading = false;
+        this.errorMessage = error.error?.message || 'Failed to load invoice';
+      }
+    });
+  }
+
+  closeInvoice(): void {
+    this.showInvoiceModal = false;
+    this.router.navigate(['/vehicles']);
+  }
+
+  downloadInvoicePdf(): void {
+    if (!this.invoiceBookingId) return;
+    this.invoiceDownloading = true;
+
+    this.invoiceService.downloadInvoicePdf(this.invoiceBookingId).subscribe({
+      next: (blob) => {
+        this.invoiceDownloading = false;
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const invoiceNumber = this.invoiceData?.invoiceNumber || this.invoiceBookingId;
+        a.href = url;
+        a.download = `invoice-${invoiceNumber}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        this.invoiceDownloading = false;
+        this.errorMessage = error.error?.message || 'Failed to download invoice PDF';
       }
     });
   }

@@ -131,3 +131,45 @@
     </div>
   </div>
 </div>
+
+<div class="invoice-modal-backdrop" *ngIf="showInvoiceModal">
+  <div class="invoice-modal">
+    <div class="invoice-modal-header">
+      <h3>Invoice</h3>
+      <button type="button" class="btn btn-secondary" (click)="closeInvoice()">Close</button>
+    </div>
+
+    <div *ngIf="invoiceLoading" class="text-center">
+      <p>Loading invoice...</p>
+    </div>
+
+    <div *ngIf="!invoiceLoading && invoiceData" class="invoice-body">
+      <div class="invoice-grid">
+        <div class="invoice-item"><strong>Invoice Number:</strong> {{ invoiceData.invoiceNumber }}</div>
+        <div class="invoice-item"><strong>Issued At:</strong> {{ invoiceData.issuedAt | date:'medium' }}</div>
+        <div class="invoice-item"><strong>Car Model:</strong> {{ invoiceData.vehicle?.carModel }}</div>
+        <div class="invoice-item"><strong>Vehicle Number:</strong> {{ invoiceData.vehicle?.vehicleNumber }}</div>
+        <div class="invoice-item"><strong>Start:</strong> {{ invoiceData.booking?.startTime | date:'medium' }}</div>
+        <div class="invoice-item"><strong>End:</strong> {{ invoiceData.booking?.endTime | date:'medium' }}</div>
+        <div class="invoice-item"><strong>Hours:</strong> {{ invoiceData.pricing?.hours }}</div>
+        <div class="invoice-item"><strong>Total:</strong> ${{ invoiceData.pricing?.total }}</div>
+      </div>
+
+      <div class="invoice-vehicle-image" *ngIf="invoiceData.vehicle?.vehicleFrontImage">
+        <h4>Vehicle</h4>
+        <img [src]="'http://localhost:5000/' + invoiceData.vehicle.vehicleFrontImage" 
+             [alt]="invoiceData.vehicle.carModel" 
+             class="invoice-img" />
+      </div>
+
+      <div class="form-row">
+        <button type="button" class="btn btn-success" (click)="downloadInvoicePdf()" [disabled]="invoiceDownloading">
+          {{ invoiceDownloading ? 'Downloading...' : 'Download PDF' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="closeInvoice()" [disabled]="invoiceDownloading">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -125,6 +125,77 @@
   margin-bottom: 20px;
 }
 
+.invoice-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.invoice-modal {
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+.invoice-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.invoice-modal-header h3 {
+  margin: 0;
+}
+
+.invoice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 15px;
+  margin-bottom: 15px;
+}
+
+.invoice-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.invoice-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.invoice-vehicle-image {
+  text-align: center;
+}
+
+.invoice-vehicle-image h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.invoice-img {
+  max-width: 100%;
+  height: auto;
+  max-height: 220px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
   .vehicle-content {
     grid-template-columns: 1fr;
