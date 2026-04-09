@@ -11,6 +11,8 @@ export class ProviderDashboardComponent implements OnInit {
   vehicles: any[] = [];
   loading: boolean = true;
   errorMessage: string = '';
+  showDeleteModal: boolean = false;
+  vehicleToDelete: any = null;
 
   constructor(
     private vehicleService: VehicleService,
@@ -39,20 +41,26 @@ export class ProviderDashboardComponent implements OnInit {
     this.router.navigate(['/add-vehicle']);
   }
 
-  editVehicle(vehicleId: string): void {
-    // For simplicity, we'll just show an alert
-    // In a real app, this would navigate to an edit page
-    alert('Edit functionality would be implemented here');
+  confirmDelete(vehicleId: string, vehicleModel: string): void {
+    this.vehicleToDelete = { _id: vehicleId, carModel: vehicleModel };
+    this.showDeleteModal = true;
   }
 
-  deleteVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to delete this vehicle?')) {
-      this.vehicleService.deleteVehicle(vehicleId).subscribe({
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+    this.vehicleToDelete = null;
+  }
+
+  executeDelete(): void {
+    if (this.vehicleToDelete) {
+      this.vehicleService.deleteVehicle(this.vehicleToDelete._id).subscribe({
         next: () => {
           this.loadMyVehicles(); // Reload the list
+          this.closeDeleteModal();
         },
         error: (error) => {
           alert('Failed to delete vehicle: ' + (error.error?.message || 'Unknown error'));
+          this.closeDeleteModal();
         }
       });
     }

@@ -54,10 +54,7 @@
           </td>
           <td>
             <div class="action-buttons">
-              <button class="btn btn-secondary btn-sm" (click)="editVehicle(vehicle._id)">
-                Edit
-              </button>
-              <button class="btn btn-danger btn-sm" (click)="deleteVehicle(vehicle._id)">
+              <button class="btn btn-danger btn-sm" (click)="confirmDelete(vehicle._id, vehicle.carModel)">
                 Delete
               </button>
             </div>
@@ -65,5 +62,23 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<!-- Custom Delete Confirmation Modal -->
+<div class="delete-modal-overlay" *ngIf="showDeleteModal" (click)="closeDeleteModal()">
+  <div class="delete-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Confirm Delete</h3>
+      <button class="close-btn" (click)="closeDeleteModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Are you sure you want to delete <strong>{{ vehicleToDelete?.carModel }}</strong>?</p>
+      <p class="warning-text">This action cannot be undone.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+      <button class="btn btn-danger" (click)="executeDelete()">Delete Vehicle</button>
+    </div>
   </div>
 </div>
