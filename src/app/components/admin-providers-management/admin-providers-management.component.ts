@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { ConfirmationService } from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-admin-providers-management',
@@ -11,7 +12,10 @@ export class AdminProvidersManagementComponent implements OnInit {
   loading = false;
   errorMessage = '';
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadProviders();
@@ -32,8 +36,16 @@ export class AdminProvidersManagementComponent implements OnInit {
     });
   }
 
-  banProvider(providerId: string): void {
-    if (confirm('Are you sure you want to ban this provider?')) {
+  async banProvider(providerId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Ban Provider',
+      message: 'Are you sure you want to ban this provider?',
+      confirmText: 'Ban',
+      cancelText: 'Cancel',
+      type: 'warning'
+    });
+
+    if (result) {
       this.adminService.banProvider(providerId).subscribe({
         next: () => {
           this.loadProviders();
@@ -58,8 +70,16 @@ export class AdminProvidersManagementComponent implements OnInit {
     });
   }
 
-  deleteProvider(providerId: string): void {
-    if (confirm('Are you sure you want to delete this provider? This will also delete all their vehicles.')) {
+  async deleteProvider(providerId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Delete Provider',
+      message: 'Are you sure you want to delete this provider? This will also delete all their vehicles. This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (result) {
       // Note: This method needs to be added to AdminService
       alert('Delete provider functionality needs backend implementation');
     }

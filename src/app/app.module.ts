@@ -18,6 +18,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { AdminUsersManagementComponent } from './components/admin-users-management/admin-users-management.component';
 import { AdminProvidersManagementComponent } from './components/admin-providers-management/admin-providers-management.component';
 import { AdminVehiclesManagementComponent } from './components/admin-vehicles-management/admin-vehicles-management.component';
+import { ConfirmationModalComponent } from './components/shared/confirmation-modal/confirmation-modal.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { ProviderGuard } from './guards/provider.guard';
@@ -40,7 +41,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     ContactComponent,
     AdminUsersManagementComponent,
     AdminProvidersManagementComponent,
-    AdminVehiclesManagementComponent
+    AdminVehiclesManagementComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     BrowserModule,

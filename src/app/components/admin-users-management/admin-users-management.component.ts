@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { ConfirmationService } from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-admin-users-management',
@@ -11,7 +12,10 @@ export class AdminUsersManagementComponent implements OnInit {
   loading = false;
   errorMessage = '';
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -32,8 +36,16 @@ export class AdminUsersManagementComponent implements OnInit {
     });
   }
 
-  deleteUser(userId: string): void {
-    if (confirm('Are you sure you want to delete this user?')) {
+  async deleteUser(userId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Delete User',
+      message: 'Are you sure you want to delete this user? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (result) {
       this.adminService.deleteUser(userId).subscribe({
         next: () => {
           this.users = this.users.filter(user => user._id !== userId);
@@ -46,8 +58,16 @@ export class AdminUsersManagementComponent implements OnInit {
     }
   }
 
-  banUser(userId: string): void {
-    if (confirm('Are you sure you want to ban this user?')) {
+  async banUser(userId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Ban User',
+      message: 'Are you sure you want to ban this user?',
+      confirmText: 'Ban',
+      cancelText: 'Cancel',
+      type: 'warning'
+    });
+
+    if (result) {
       this.adminService.banUser(userId).subscribe({
         next: () => {
           this.loadUsers();

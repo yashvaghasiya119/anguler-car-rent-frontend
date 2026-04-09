@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
+import { ConfirmationService } from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-admin-vehicles-management',
@@ -11,7 +12,10 @@ export class AdminVehiclesManagementComponent implements OnInit {
   loading = false;
   errorMessage = '';
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private confirmationService: ConfirmationService
+  ) {}
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -32,8 +36,16 @@ export class AdminVehiclesManagementComponent implements OnInit {
     });
   }
 
-  approveVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to approve this vehicle?')) {
+  async approveVehicle(vehicleId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Approve Vehicle',
+      message: 'Are you sure you want to approve this vehicle?',
+      confirmText: 'Approve',
+      cancelText: 'Cancel',
+      type: 'info'
+    });
+
+    if (result) {
       this.adminService.approveVehicle(vehicleId).subscribe({
         next: () => {
           this.loadVehicles();
@@ -46,8 +58,16 @@ export class AdminVehiclesManagementComponent implements OnInit {
     }
   }
 
-  rejectVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to reject this vehicle?')) {
+  async rejectVehicle(vehicleId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Reject Vehicle',
+      message: 'Are you sure you want to reject this vehicle?',
+      confirmText: 'Reject',
+      cancelText: 'Cancel',
+      type: 'warning'
+    });
+
+    if (result) {
       this.adminService.rejectVehicle(vehicleId).subscribe({
         next: () => {
           this.loadVehicles();
@@ -60,8 +80,16 @@ export class AdminVehiclesManagementComponent implements OnInit {
     }
   }
 
-  deleteVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to delete this vehicle?')) {
+  async deleteVehicle(vehicleId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Delete Vehicle',
+      message: 'Are you sure you want to delete this vehicle? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      type: 'danger'
+    });
+
+    if (result) {
       // Note: This method needs to be added to AdminService
       alert('Delete vehicle functionality needs backend implementation');
     }

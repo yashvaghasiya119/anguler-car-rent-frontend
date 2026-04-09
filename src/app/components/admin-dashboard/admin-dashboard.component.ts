@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { Router } from '@angular/router';
+import { ConfirmationService } from '../../services/confirmation.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -15,7 +16,11 @@ export class AdminDashboardComponent implements OnInit {
   errorMessage: string = '';
   activeTab: string = 'vehicles';
 
-  constructor(private adminService: AdminService, private router: Router) { }
+  constructor(
+    private adminService: AdminService, 
+    private router: Router,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     this.loadAllData();
@@ -58,8 +63,16 @@ export class AdminDashboardComponent implements OnInit {
     this.activeTab = tab;
   }
 
-  banProvider(providerId: string): void {
-    if (confirm('Are you sure you want to ban this provider?')) {
+  async banProvider(providerId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Ban Provider',
+      message: 'Are you sure you want to ban this provider?',
+      confirmText: 'Ban',
+      cancelText: 'Cancel',
+      type: 'warning'
+    });
+
+    if (result) {
       this.adminService.banProvider(providerId).subscribe({
         next: () => {
           this.loadAllData(); // Reload data
@@ -71,8 +84,16 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  unbanProvider(providerId: string): void {
-    if (confirm('Are you sure you want to unban this provider?')) {
+  async unbanProvider(providerId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Unban Provider',
+      message: 'Are you sure you want to unban this provider?',
+      confirmText: 'Unban',
+      cancelText: 'Cancel',
+      type: 'info'
+    });
+
+    if (result) {
       this.adminService.unbanProvider(providerId).subscribe({
         next: () => {
           this.loadAllData(); // Reload data
@@ -84,8 +105,16 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  approveVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to approve this vehicle?')) {
+  async approveVehicle(vehicleId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Approve Vehicle',
+      message: 'Are you sure you want to approve this vehicle?',
+      confirmText: 'Approve',
+      cancelText: 'Cancel',
+      type: 'info'
+    });
+
+    if (result) {
       this.adminService.approveVehicle(vehicleId).subscribe({
         next: () => {
           this.loadAllData(); // Reload data
@@ -97,8 +126,16 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  rejectVehicle(vehicleId: string): void {
-    if (confirm('Are you sure you want to reject this vehicle?')) {
+  async rejectVehicle(vehicleId: string): Promise<void> {
+    const result = await this.confirmationService.confirm({
+      title: 'Reject Vehicle',
+      message: 'Are you sure you want to reject this vehicle?',
+      confirmText: 'Reject',
+      cancelText: 'Cancel',
+      type: 'warning'
+    });
+
+    if (result) {
       this.adminService.rejectVehicle(vehicleId).subscribe({
         next: () => {
           this.loadAllData(); // Reload data
