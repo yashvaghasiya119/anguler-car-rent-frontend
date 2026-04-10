@@ -38,6 +38,10 @@ export class AdminService {
     return this.http.put(`${this.API_URL}/unban-provider/${id}`, {});
   }
 
+  deleteProvider(id: string): Observable<any> {
+    return this.http.delete(`${this.API_URL}/providers/${id}`);
+  }
+
   getAllVehicles(): Observable<any[]> {
     return this.http.get<any[]>(`${this.API_URL}/vehicles`);
   }

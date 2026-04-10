@@ -82,8 +82,15 @@ export class AdminProvidersManagementComponent implements OnInit {
     });
 
     if (result) {
-      // Note: This method needs to be added to AdminService
-      alert('Delete provider functionality needs backend implementation');
+      this.adminService.deleteProvider(providerId).subscribe({
+        next: () => {
+          this.providers = this.providers.filter(provider => provider._id !== providerId);
+        },
+        error: (err: any) => {
+          alert('Failed to delete provider');
+          console.error('Error deleting provider:', err);
+        }
+      });
     }
   }
 
