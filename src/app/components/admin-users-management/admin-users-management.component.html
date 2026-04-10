@@ -55,6 +55,7 @@
               <td>
                 <div class="action-buttons">
                   <button class="btn btn-sm btn-info" 
+                          (click)="viewUserDetails(user)"
                           title="View Details">
                     👁️
                   </button>
@@ -87,6 +88,42 @@
         <h3>No Users Found</h3>
         <p>There are no users registered in the system yet.</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- User Details Modal -->
+<div *ngIf="showUserModal && selectedUser" class="modal-overlay" (click)="closeUserModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>User Details</h3>
+      <button class="close-btn" (click)="closeUserModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <strong>Name:</strong> {{ selectedUser?.name || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Email:</strong> {{ selectedUser?.email || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Role:</strong> {{ selectedUser?.role || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Phone:</strong> {{ selectedUser?.phone || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Status:</strong> 
+        <span [class]="selectedUser?.isBanned ? 'status-banned' : 'status-active'">
+          {{ selectedUser?.isBanned ? 'Banned' : 'Active' }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <strong>Created:</strong> {{ formatDate(selectedUser?.createdAt) }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="closeUserModal()">Close</button>
     </div>
   </div>
 </div>

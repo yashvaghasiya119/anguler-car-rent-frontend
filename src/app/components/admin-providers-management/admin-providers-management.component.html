@@ -51,6 +51,7 @@
               <td>
                 <div class="action-buttons">
                   <button class="btn btn-sm btn-info" 
+                          (click)="viewProviderDetails(provider)"
                           title="View Details">
                     👁️
                   </button>
@@ -83,6 +84,39 @@
         <h3>No Providers Found</h3>
         <p>There are no providers registered in the system yet.</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Provider Details Modal -->
+<div *ngIf="showProviderModal && selectedProvider" class="modal-overlay" (click)="closeProviderModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Provider Details</h3>
+      <button class="close-btn" (click)="closeProviderModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <strong>Name:</strong> {{ selectedProvider?.name || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Email:</strong> {{ selectedProvider?.email || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Phone:</strong> {{ selectedProvider?.phone || 'Not provided' }}
+      </div>
+      <div class="detail-row">
+        <strong>Status:</strong> 
+        <span [class]="selectedProvider?.isBanned ? 'status-banned' : 'status-active'">
+          {{ selectedProvider?.isBanned ? 'Banned' : 'Active' }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <strong>Joined:</strong> {{ formatDate(selectedProvider?.createdAt) }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="closeProviderModal()">Close</button>
     </div>
   </div>
 </div>

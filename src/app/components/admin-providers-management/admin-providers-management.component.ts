@@ -11,6 +11,8 @@ export class AdminProvidersManagementComponent implements OnInit {
   providers: any[] = [];
   loading = false;
   errorMessage = '';
+  selectedProvider: any = null;
+  showProviderModal = false;
 
   constructor(
     private adminService: AdminService,
@@ -91,5 +93,15 @@ export class AdminProvidersManagementComponent implements OnInit {
 
   getStatusClass(isBanned: boolean): string {
     return isBanned ? 'badge-banned' : 'badge-active';
+  }
+
+  viewProviderDetails(provider: any): void {
+    this.selectedProvider = provider;
+    this.showProviderModal = true;
+  }
+
+  closeProviderModal(): void {
+    this.showProviderModal = false;
+    this.selectedProvider = null;
   }
 }

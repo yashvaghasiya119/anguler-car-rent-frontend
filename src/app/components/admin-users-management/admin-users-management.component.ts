@@ -11,6 +11,8 @@ export class AdminUsersManagementComponent implements OnInit {
   users: any[] = [];
   loading = false;
   errorMessage = '';
+  selectedUser: any = null;
+  showUserModal = false;
 
   constructor(
     private adminService: AdminService,
@@ -111,5 +113,15 @@ export class AdminUsersManagementComponent implements OnInit {
 
   getStatusClass(isBanned: boolean): string {
     return isBanned ? 'badge-banned' : 'badge-active';
+  }
+
+  viewUserDetails(user: any): void {
+    this.selectedUser = user;
+    this.showUserModal = true;
+  }
+
+  closeUserModal(): void {
+    this.showUserModal = false;
+    this.selectedUser = null;
   }
 }

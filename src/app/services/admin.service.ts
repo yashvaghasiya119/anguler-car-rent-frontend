@@ -49,4 +49,8 @@ export class AdminService {
   rejectVehicle(id: string): Observable<any> {
     return this.http.put(`${this.API_URL}/reject-vehicle/${id}`, {});
   }
+
+  updateVehicle(id: string, vehicleData: any): Observable<any> {
+    return this.http.put(`${this.API_URL}/vehicles/${id}`, vehicleData);
+  }
 }

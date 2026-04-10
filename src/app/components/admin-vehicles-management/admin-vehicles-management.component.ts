@@ -11,6 +11,12 @@ export class AdminVehiclesManagementComponent implements OnInit {
   vehicles: any[] = [];
   loading = false;
   errorMessage = '';
+  showEditModal = false;
+  showViewModal = false;
+  isUpdating = false;
+  editForm: any = {};
+  currentVehicleId: string = '';
+  selectedVehicle: any = null;
 
   constructor(
     private adminService: AdminService,
@@ -110,5 +116,56 @@ export class AdminVehiclesManagementComponent implements OnInit {
 
   formatCurrency(amount: number): string {
     return `$${amount.toFixed(2)}`;
+  }
+
+  openEditModal(vehicle: any): void {
+    this.currentVehicleId = vehicle._id;
+    this.editForm = {
+      vehicleNumber: vehicle.vehicleNumber,
+      carModel: vehicle.carModel,
+      rentPerHour: vehicle.rentPerHour,
+      ownerName: vehicle.ownerName,
+      bankAccountNumber: vehicle.bankAccountNumber,
+      status: vehicle.status
+    };
+    this.showEditModal = true;
+  }
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.editForm = {};
+    this.currentVehicleId = '';
+  }
+
+  updateVehicle(): void {
+    if (!this.currentVehicleId) return;
+    
+    this.isUpdating = true;
+    this.adminService.updateVehicle(this.currentVehicleId, this.editForm).subscribe({
+      next: () => {
+        this.loadVehicles();
+        this.closeEditModal();
+        this.isUpdating = false;
+      },
+      error: (err: any) => {
+        alert('Failed to update vehicle');
+        console.error('Error updating vehicle:', err);
+        this.isUpdating = false;
+      }
+    });
+  }
+
+  viewVehicleDetails(vehicle: any): void {
+    this.selectedVehicle = vehicle;
+    this.showViewModal = true;
+  }
+
+  closeViewModal(): void {
+    this.showViewModal = false;
+    this.selectedVehicle = null;
+  }
+
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
   }
 }

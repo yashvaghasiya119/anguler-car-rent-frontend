@@ -59,25 +59,31 @@
               <td>
                 <div class="action-buttons">
                   <button class="btn btn-sm btn-info" 
+                          (click)="viewVehicleDetails(vehicle)"
                           title="View Details">
-                    👁️
+                    &#128065;
+                  </button>
+                  <button class="btn btn-sm btn-primary" 
+                          (click)="openEditModal(vehicle)"
+                          title="Edit Vehicle">
+                    &#9999;&#65039;
                   </button>
                   <button class="btn btn-sm btn-success" 
                           (click)="approveVehicle(vehicle._id)"
                           *ngIf="vehicle.status === 'pending'"
                           title="Approve Vehicle">
-                    ✅
+                    &#9989;
                   </button>
                   <button class="btn btn-sm btn-danger" 
                           (click)="rejectVehicle(vehicle._id)"
                           *ngIf="vehicle.status === 'pending'"
                           title="Reject Vehicle">
-                    ❌
+                    &#10060;
                   </button>
                   <button class="btn btn-sm btn-warning" 
                           (click)="deleteVehicle(vehicle._id)"
                           title="Delete Vehicle">
-                    🗑️
+                    &#128465;
                   </button>
                 </div>
               </td>
@@ -91,6 +97,111 @@
         <h3>No Vehicles Found</h3>
         <p>There are no vehicles registered in the system yet.</p>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Vehicle Modal -->
+<div class="modal-overlay" *ngIf="showEditModal" (click)="closeEditModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Edit Vehicle</h3>
+      <button class="close-btn" (click)="closeEditModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form (ngSubmit)="updateVehicle()">
+        <div class="form-group">
+          <label for="vehicleNumber">Vehicle Number</label>
+          <input type="text" id="vehicleNumber" name="vehicleNumber" 
+                 [(ngModel)]="editForm.vehicleNumber" required>
+        </div>
+        <div class="form-group">
+          <label for="carModel">Car Model</label>
+          <input type="text" id="carModel" name="carModel" 
+                 [(ngModel)]="editForm.carModel" required>
+        </div>
+        <div class="form-group">
+          <label for="rentPerHour">Rent Per Hour ($)</label>
+          <input type="number" id="rentPerHour" name="rentPerHour" 
+                 [(ngModel)]="editForm.rentPerHour" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label for="ownerName">Owner Name</label>
+          <input type="text" id="ownerName" name="ownerName" 
+                 [(ngModel)]="editForm.ownerName" required>
+        </div>
+        <div class="form-group">
+          <label for="bankAccountNumber">Bank Account Number</label>
+          <input type="text" id="bankAccountNumber" name="bankAccountNumber" 
+                 [(ngModel)]="editForm.bankAccountNumber" required>
+        </div>
+        <div class="form-group">
+          <label for="status">Status</label>
+          <select id="status" name="status" [(ngModel)]="editForm.status" required>
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="isUpdating">
+            {{ isUpdating ? 'Updating...' : 'Update Vehicle' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- View Vehicle Details Modal -->
+<div class="modal-overlay" *ngIf="showViewModal" (click)="closeViewModal()">
+  <div class="modal-content vehicle-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Vehicle Details</h3>
+      <button class="close-btn" (click)="closeViewModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="vehicle-image-container">
+        <img [src]="'http://localhost:5000/' + selectedVehicle?.vehicleFrontImage" 
+             [alt]="selectedVehicle?.carModel" 
+             class="vehicle-detail-image"
+             *ngIf="selectedVehicle?.vehicleFrontImage">
+        <div class="no-vehicle-image" *ngIf="!selectedVehicle?.vehicleFrontImage">🚗</div>
+      </div>
+      
+      <div class="vehicle-details-grid">
+        <div class="detail-row">
+          <strong>Vehicle Number:</strong> {{ selectedVehicle?.vehicleNumber || 'N/A' }}
+        </div>
+        <div class="detail-row">
+          <strong>Model:</strong> {{ selectedVehicle?.carModel || 'N/A' }}
+        </div>
+        <div class="detail-row">
+          <strong>Provider:</strong> {{ selectedVehicle?.providerId?.name || 'Unknown' }}
+        </div>
+        <div class="detail-row">
+          <strong>Rent/Hour:</strong> {{ formatCurrency(selectedVehicle?.rentPerHour) }}
+        </div>
+        <div class="detail-row">
+          <strong>Owner:</strong> {{ selectedVehicle?.ownerName || 'N/A' }}
+        </div>
+        <div class="detail-row">
+          <strong>Bank Account:</strong> {{ selectedVehicle?.bankAccountNumber || 'N/A' }}
+        </div>
+        <div class="detail-row">
+          <strong>Status:</strong> 
+          <span [class]="getStatusClass(selectedVehicle?.status)">
+            {{ selectedVehicle?.status }}
+          </span>
+        </div>
+        <div class="detail-row">
+          <strong>Added:</strong> {{ formatDate(selectedVehicle?.createdAt) }}
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="closeViewModal()">Close</button>
     </div>
   </div>
 </div>

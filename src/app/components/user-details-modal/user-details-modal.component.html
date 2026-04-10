@@ -1,0 +1,34 @@
+<div class="modal-overlay" (click)="onClose()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>User Details</h3>
+      <button class="close-btn" (click)="onClose()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="detail-row">
+        <strong>Name:</strong> {{ user?.name || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Email:</strong> {{ user?.email || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Role:</strong> {{ user?.role || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Phone:</strong> {{ user?.phone || 'N/A' }}
+      </div>
+      <div class="detail-row">
+        <strong>Status:</strong> 
+        <span [class]="user?.isBanned ? 'status-banned' : 'status-active'">
+          {{ user?.isBanned ? 'Banned' : 'Active' }}
+        </span>
+      </div>
+      <div class="detail-row">
+        <strong>Created:</strong> {{ formatDate(user?.createdAt) }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="onClose()">Close</button>
+    </div>
+  </div>
+</div>
